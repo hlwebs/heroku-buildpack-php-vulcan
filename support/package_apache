@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+if [ "$APACHE_VERSION" == "" ]; then
+  echo "must set APACHE_VERSION, i.e APACHE_VERSION=2.2.22"
+  exit 1
+fi
+
+basedir="$( cd -P "$( dirname "$0" )" && pwd )"
+
+# make a temp directory
+tempdir="$( mktemp -t apache_XXXX )"
+rm -rf $tempdir
+mkdir -p $tempdir
+pushd $tempdir
+
+# download and extract apache
+curl -L "http://www.apache.org/dist/httpd/httpd-${APACHE_VERSION}.tar.bz2" -o - | tar xj
+
+# build and package apache for heroku
+vulcan build -v -s httpd-$APACHE_VERSION -o $tempdir/apache-$APACHE_VERSION.tgz -p /app/vendor/apache -c './configure --prefix=/app/vendor/apache --enable-rewrite --enable-so && make install' 
+
+popd
+
+cp $tempdir/apache-$APACHE_VERSION.tgz .
+
+echo "+ Binaries available at ./apache-$APACHE_VERSION.tgz"
+echo "+ Upload this package to Amazon S3."
+
+# upload to s3
+s3cmd put -rr $tempdir/*.tgz s3://$S3_BUCKET

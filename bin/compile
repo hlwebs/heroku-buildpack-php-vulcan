@@ -39,17 +39,17 @@ mkdir -p ${BUILD_DIR}/vendor
 echo "-----> Bundling Apache version $APACHE_VERSION"
 APACHE_URL="$S3_URL/apache-$APACHE_VERSION.tgz"
 mkdir -p ${BUILD_DIR}/vendor/apache
-curl --silent --max-time 60 --location "$APACHE_URL" | tar xzf -C ${BUILD_DIR}/vendor/apache
+curl --silent --max-time 60 --location "$APACHE_URL" | tar xz -C ${BUILD_DIR}/vendor/apache
 
 echo "-----> Bundling PHP version $PHP_VERSION"
 PHP_URL="$S3_URL/php-$PHP_VERSION.tgz"
 mkdir -p ${BUILD_DIR}/vendor/php
-curl --silent --max-time 60 --location "$PHP_URL" | tar xzf -C ${BUILD_DIR}/vendor/php
+curl --silent --max-time 60 --location "$PHP_URL" | tar xz -C ${BUILD_DIR}/vendor/php
 
 echo "-----> Bundling libmcrypt version $LIBMCRYPT_VERSION"
 LIBMCRYPT_URL="$S3_URL/libmcrypt-$LIBMCRYPT_VERSION.tgz" 
 mkdir -p ${BUILD_DIR}/local
-curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xzf -C ${BUILD_DIR}/local
+curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xz -C ${BUILD_DIR}/local
 
 # update config files
 cp $LP_DIR/conf/httpd.conf vendor/apache/conf

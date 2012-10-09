@@ -34,6 +34,8 @@ if [ -f www/Procfile ]; then
   mv www/Procfile .
 fi
 
+mkdir -p ${BUILD_DIR}/vendor
+
 echo "-----> Bundling Apache version $APACHE_VERSION"
 APACHE_URL="$S3_URL/apache-$APACHE_VERSION.tgz"
 mkdir -p ${BUILD_DIR}/vendor/apache

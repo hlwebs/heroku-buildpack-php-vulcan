@@ -15,7 +15,7 @@ vulcan build -v -c "./vulcan-build-php.sh" -p /app/vendor/build -o apache-${APAC
 echo "+ Binaries available at ./apache-${APACHE_VERSION}-php-${PHP_VERSION}.tgz"
 echo "+ Unpack and upload this package to Amazon S3."
 
-tar xz apache-${APACHE_VERSION}-php-${PHP_VERSION}.tgz
+tar xzf apache-${APACHE_VERSION}-php-${PHP_VERSION}.tgz
 
 # upload to s3
 s3cmd put -rr php-${PHP_VERSION}.tgz s3://$S3_BUCKET

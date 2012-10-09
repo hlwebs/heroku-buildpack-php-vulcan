@@ -81,7 +81,7 @@ echo "+ Packaging PHP..."
 # package PHP
 echo ${PHP_VERSION} > /app/vendor/php/VERSION
 
-pushd php-$PHP_VERSION
+pushd /app/vendor/php
 mkdir -p /app/vendor/build
 tar -zcvf /app/vendor/build/php-${PHP_VERSION}.tgz *
 popd

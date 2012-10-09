@@ -60,6 +60,12 @@ cp $LP_DIR/conf/php.ini vendor/php
 mkdir -p bin
 ln -s /app/vendor/php/bin/php bin/php
 
+# pecl
+pecl config-set php_ini /app/vendor/php/php.ini
+yes '' | pecl install memcache
+echo "[memcache]" >> /app/vendor/php/php.ini
+echo "extension=memcache.so" >> /app/vendor/php/php.ini
+
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
   echo "PassEnv \$var" >> /app/vendor/apache/conf/httpd.conf;

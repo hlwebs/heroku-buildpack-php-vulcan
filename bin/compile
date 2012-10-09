@@ -61,8 +61,8 @@ mkdir -p bin
 ln -s /app/vendor/php/bin/php bin/php
 
 # pecl
-pecl config-set php_ini /app/vendor/php/php.ini
-yes '' | pecl install memcache
+vendor/php/bin/pecl config-set php_ini /app/vendor/php/php.ini
+yes '' | vendor/php/bin/pecl install memcache
 echo "[memcache]" >> /app/vendor/php/php.ini
 echo "extension=memcache.so" >> /app/vendor/php/php.ini
 

@@ -34,6 +34,7 @@ if [ -f www/Procfile ]; then
   mv www/Procfile .
 fi
 
+echo "-----> Creating ${BUILD_DIR}/vendor directory"
 mkdir -p ${BUILD_DIR}/vendor
 
 echo "-----> Bundling Apache version $APACHE_VERSION"

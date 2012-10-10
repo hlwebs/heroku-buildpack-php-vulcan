@@ -71,11 +71,6 @@ tail -F /app/vendor/apache/logs/error_log &
 tail -F /app/vendor/apache/logs/access_log &
 export LD_LIBRARY_PATH=/app/vendor/php/ext
 export PHP_INI_SCAN_DIR=/app/www
-echo "Installing packages via pecl"
-vendor/php/bin/pecl config-set php_ini vendor/php/php.ini
-yes '' | vendor/php/bin/pecl install memcache
-echo "[memcache]" >> vendor/php/php.ini
-echo "extension=memcache.so" >> vendor/php/php.ini
 echo "Launching apache"
 exec /app/vendor/apache/bin/httpd -DNO_DETACH
 EOF

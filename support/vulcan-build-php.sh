@@ -4,6 +4,8 @@
 ## EDIT
 export S3_BUCKET="heroku-bins"
 export LIBMCRYPT_VERSION="2.5.8"
+export APC_VERSION="3.1.10"
+export PHPREDIS_VERSION="2.2.1"
 export PHP_VERSION="5.3.10"
 export APACHE_VERSION="2.2.22"
 ## END EDIT
@@ -76,6 +78,38 @@ export PATH=/app/vendor/php/bin:$PATH
 
 # configure pear
 pear config-set php_dir /app/vendor/php
+
+echo "+ Installing memcache packages..."
+set +e
+set +o pipefail
+pecl config-set php_ini /app/vendor/php/php.ini
+yes '' | pecl install -s memcache
+# don't forget to add 'extension=memcache.so' to php.ini
+set -e
+set -o pipefail
+
+echo "+ Installing APC..."
+# install apc from source
+curl -L http://pecl.php.net/get/APC-${APC_VERSION}.tgz -o - | tar xz
+pushd APC-${APC_VERSION}
+# php apc jokers didn't update the version string in 3.1.10.
+sed -i 's/PHP_APC_VERSION "3.1.9"/PHP_APC_VERSION "3.1.10"/g' php_apc.h
+phpize
+./configure --enable-apc --enable-apc-filehits --with-php-config=/app/vendor/php/bin/php-config
+make && make install
+popd
+
+echo "+ Installing phpredis..."
+# install phpredis
+git clone git://github.com/nicolasff/phpredis.git
+pushd phpredis
+git checkout ${PHPREDIS_VERSION}
+
+phpize
+./configure
+make && make install
+# add "extension=redis.so" to php.ini
+popd
 
 echo "+ Packaging PHP..."
 # package PHP

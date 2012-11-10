@@ -52,7 +52,8 @@ LIBMCRYPT_URL="$S3_URL/libmcrypt-$LIBMCRYPT_VERSION.tgz"
 mkdir -p local
 mkdir -p vendor/php/ext
 curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xz -C local
-ln -s local/lib/libmcrypt.so.4 vendor/php/ext/libmcrypt.so.4
+#ln -s local/lib/libmcrypt.so.4 vendor/php/ext/libmcrypt.so.4
+cp local/lib/libmcrypt.so.4.4.8 vendor/php/ext/libmcrypt.so.4
 
 # update config files
 cp $LP_DIR/conf/httpd.conf vendor/apache/conf

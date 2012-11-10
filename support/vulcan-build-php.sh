@@ -17,11 +17,6 @@ orig_dir=$( pwd )
 
 mkdir -p build && pushd build
 
-echo "+ Fetching libmcrypt libraries..."
-# install mcrypt for portability.
-mkdir -p /app/local
-curl -L "https://s3.amazonaws.com/${S3_BUCKET}/libmcrypt-${LIBMCRYPT_VERSION}.tgz" -o - | tar xz -C /app/local
-
 echo "+ Fetching Apache..."
 # unpack apache
 mkdir -p /app/vendor/apache
@@ -54,7 +49,6 @@ echo "+ Configuring PHP..."
 --with-gd \
 --with-gettext \
 --with-jpeg-dir \
---with-mcrypt=/app/local \
 --with-iconv \
 --with-mhash \
 --with-mysql \
@@ -115,6 +109,9 @@ echo "+ Packaging PHP..."
 # package PHP
 echo ${PHP_VERSION} > /app/vendor/php/VERSION
 
+mkdir -p /app/vendor/php/ext
+cp /app/vendor/php/lib/php/extensions/no-debug-non-zts-20090626/* /app/vendor/php/ext
+
 pushd /app/vendor/php
 mkdir -p /app/vendor/build
 tar -zcvf /app/vendor/build/php-${PHP_VERSION}.tgz *
@@ -123,8 +120,6 @@ popd
 pushd /app/vendor/apache
 echo "+ Packaging Apache with php module"
 tar -zcvf /app/vendor/build/apache-${APACHE_VERSION}.tgz *
-
-phpize
 
 popd
 

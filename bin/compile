@@ -62,6 +62,7 @@ mkdir -p bin
 ln -s /app/vendor/php/bin/php bin/php
 
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
+    rm www/composer.lock
     GIT_DIR_ORIG=$GIT_DIR
     unset GIT_DIR
     echo "-----> Bundling Composer"

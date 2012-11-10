@@ -50,7 +50,9 @@ curl --silent --max-time 60 --location "$PHP_URL" | tar xz -C vendor/php
 echo "-----> Bundling libmcrypt version $LIBMCRYPT_VERSION"
 LIBMCRYPT_URL="$S3_URL/libmcrypt-$LIBMCRYPT_VERSION.tgz" 
 mkdir -p local
+mkdir -p vendor/php/ext
 curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xz -C local
+ln -s local/lib/libmcrypt.so.4 vendor/php/ext/libmcrypt.so.4
 
 # update config files
 cp $LP_DIR/conf/httpd.conf vendor/apache/conf
@@ -60,7 +62,7 @@ cp $LP_DIR/conf/php.ini vendor/php
 mkdir -p bin
 ln -s /app/vendor/php/bin/php bin/php
 
-if [ -f www/composer.jsonNO ] && [ ! -d www/vendor ]; then
+if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     GIT_DIR_ORIG=$GIT_DIR
     unset GIT_DIR
     echo "-----> Bundling Composer"

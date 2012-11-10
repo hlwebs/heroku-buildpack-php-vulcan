@@ -99,17 +99,17 @@ phpize
 make && make install
 popd
 
-echo "+ Installing phpredis..."
-# install phpredis
-git clone git://github.com/nicolasff/phpredis.git
-pushd phpredis
-git checkout ${PHPREDIS_VERSION}
+#echo "+ Installing phpredis..."
+## install phpredis
+#git clone git://github.com/nicolasff/phpredis.git
+#pushd phpredis
+#git checkout ${PHPREDIS_VERSION}
 
-phpize
-./configure
-make && make install
-# add "extension=redis.so" to php.ini
-popd
+#phpize
+#./configure
+#make && make install
+## add "extension=redis.so" to php.ini
+#popd
 
 echo "+ Packaging PHP..."
 # package PHP
@@ -123,6 +123,8 @@ popd
 pushd /app/vendor/apache
 echo "+ Packaging Apache with php module"
 tar -zcvf /app/vendor/build/apache-${APACHE_VERSION}.tgz *
+
+phpize
 
 popd
 

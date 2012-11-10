@@ -49,8 +49,8 @@ curl --silent --max-time 60 --location "$PHP_URL" | tar xz -C vendor/php
 
 echo "-----> Bundling libmcrypt version $LIBMCRYPT_VERSION"
 LIBMCRYPT_URL="$S3_URL/libmcrypt-$LIBMCRYPT_VERSION.tgz" 
-mkdir -p vendor/php/ext
-curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xz -C vendor/php/ext
+#mkdir -p vendor/php/ext
+curl --silent --max-time 60 --location "$LIBMCRYPT_URL" | tar xz -C /lib
 
 # update config files
 cp $LP_DIR/conf/httpd.conf vendor/apache/conf

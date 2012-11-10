@@ -60,6 +60,20 @@ cp $LP_DIR/conf/php.ini vendor/php
 mkdir -p bin
 ln -s /app/vendor/php/bin/php bin/php
 
+if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
+    GIT_DIR_ORIG=$GIT_DIR
+    unset GIT_DIR
+    echo "-----> Bundling Composer"
+    COMPOSER_URL="http://getcomposer.org/composer.phar"
+    curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
+    cd www
+    echo "-----> Installing dependencies"
+
+    LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source
+    cd $BUILD_DIR
+    rm www/composer.phar
+    export GIT_DIR=$GIT_DIR_ORIG
+fi
 
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do

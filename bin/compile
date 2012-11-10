@@ -71,7 +71,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     cd www
     echo "-----> Installing dependencies"
 
-    LD_LIBRARY_PATH=$BUILD_DIR/vendor/php/ext
+    LD_LIBRARY_PATH=/app/vendor/php/ext:/app/apache/lib
     $BUILD_DIR/vendor/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source
     cd $BUILD_DIR
     rm www/composer.phar
@@ -86,7 +86,7 @@ touch /app/vendor/apache/logs/error_log
 touch /app/vendor/apache/logs/access_log
 tail -F /app/vendor/apache/logs/error_log &
 tail -F /app/vendor/apache/logs/access_log &
-export LD_LIBRARY_PATH=/app/vendor/php/ext
+export LD_LIBRARY_PATH=/app/vendor/php/ext:/app/apache/lib
 export PHP_INI_SCAN_DIR=/app/www
 echo "Launching apache"
 exec /app/vendor/apache/bin/httpd -DNO_DETACH

@@ -69,7 +69,8 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     cd www
     echo "-----> Installing dependencies"
 
-    LD_LIBRARY_PATH=$BUILD_DIR/vendor/php/ext $BUILD_DIR/vendor/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source
+    LD_LIBRARY_PATH=$BUILD_DIR/vendor/php/ext
+    $BUILD_DIR/vendor/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source
     cd $BUILD_DIR
     rm www/composer.phar
     export GIT_DIR=$GIT_DIR_ORIG

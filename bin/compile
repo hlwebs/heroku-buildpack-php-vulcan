@@ -38,7 +38,8 @@ echo "-----> Creating vendor directory"
 mkdir -p vendor
 
 echo "-----> Bundling Apache version $APACHE_VERSION"
-APACHE_URL="$S3_URL/apache-$APACHE_VERSION.tgz"
+#APACHE_URL="$S3_URL/apache-$APACHE_VERSION.tgz"
+APACHE_URL="http://dl.dropbox.com/s/48jk6nw0xpc2tub/apache-2.2.22.tgz"
 mkdir -p vendor/apache
 curl --silent --max-time 60 --location "$APACHE_URL" | tar xz -C vendor/apache
 
